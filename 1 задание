@@ -1,0 +1,144 @@
+#include <iostream>
+#include <limits>
+#include <cctype>
+
+double fraction(double x) {
+    return x - static_cast<int>(x); // Возвращает дробную часть числа
+}
+
+int sumLastNums(int x) {
+    int lastDigit = x % 10; // Последняя цифра
+    int secondLastDigit = (x / 10) % 10; // Предпоследняя цифра
+    return lastDigit + secondLastDigit; // Сумма последних двух цифр
+}
+
+bool isPositive(int x) {
+    return x > 0; // Проверка на положительность числа
+}
+
+bool is2Digits(int x) {
+    return x >= 10 && x <= 99; // Проверка на двузначность числа
+}
+
+bool isUpperCase(char x) {
+    return x >= 'A' && x <= 'Z'; // Проверка на заглавную букву
+}
+
+double inputFraction() {
+    double x;
+    while (true) {
+        std::cout << "Введите число (допустимы только дробные и целые): ";
+        std::cin >> x;
+        if (std::cin.fail()) {
+            std::cin.clear(); // Сброс флага ошибки
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Очистка ввода
+            std::cout << "Ошибка: введите корректное вещественное число." << std::endl;
+        } else {
+            return x;
+        }
+    }
+}
+
+int inputSumLastNums() {
+    int x;
+    while (true) {
+        std::cout << "Введите целое число (не менее двух цифр): ";
+        std::cin >> x;
+        if (std::cin.fail() || x < 10 && x > -10) {
+            std::cin.clear(); // Сброс флага ошибок
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Очистка ввода
+            std::cout << "Ошибка: введите целое число с не менее чем двумя цифрами." << std::endl;
+        } else {
+            return x;
+        }
+    }
+}
+
+int inputIsPositive() {
+    int x;
+    while (true) {
+        std::cout << "Введите целое число для проверки на положительность: ";
+        std::cin >> x;
+        if (std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "Ошибка: введите корректное целое число." << std::endl;
+        } else {
+            return x;
+        }
+    }
+}
+
+int inputIs2Digits() {
+    int x;
+    while (true) {
+        std::cout << "Введите целое число для проверки на двузначность: ";
+        std::cin >> x;
+        if (std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "Ошибка: введите корректное целое число." << std::endl;
+        } else {
+            return x;
+        }
+    }
+}
+
+char inputIsUpperCase() {
+    char x;
+    while (true) {
+        std::cout << "Введите символ для проверки на заглавную букву: ";
+        std::cin >> x;
+        if (!isalpha(x)) { // Проверка на букву
+            std::cout << "Ошибка: введите английскую букву." << std::endl;
+        } else {
+            return x;
+        }
+    }
+}
+
+int main() {
+    int choice;
+
+    std::cout << "Выберите функцию:\n";
+    std::cout << "1. Дробная часть\n";
+    std::cout << "2. Сумма двух последних цифр числа\n";
+    std::cout << "3. Проверка числа на положительность\n";
+    std::cout << "4. Проверка на двузначность числа\n";
+    std::cout << "5. Проверка символа на заглавную букву\n";
+    std::cout << "Введите номер функции: ";
+    std::cin >> choice;
+
+    switch (choice) {
+        case 1: {
+            double x = inputFraction();
+            std::cout << "Дробная часть: " << fraction(x) << std::endl;
+            break;
+        }
+        case 2: {
+            int x = inputSumLastNums();
+            std::cout << "Сумма последних двух цифр: " << sumLastNums(x) << std::endl;
+            break;
+        }
+        case 3: {
+            int x = inputIsPositive();
+            std::cout << "Положительное число: " << (isPositive(x) ? "true" : "false") << std::endl;
+            break;
+        }
+        case 4: {
+            int x = inputIs2Digits();
+            std::cout << "Двузначное число: " << (is2Digits(x) ? "true" : "false") << std::endl;
+            break;
+        }
+        case 5: {
+            char x = inputIsUpperCase();
+            std::cout << "Заглавная буква: " << (isUpperCase(x) ? "true" : "false") << std::endl;
+            break;
+        }
+        default:
+            std::cout << "Ошибка: некорректный выбор." << std::endl;
+            break;
+    }
+
+    return 0;
+}
