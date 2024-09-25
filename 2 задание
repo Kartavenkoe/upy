@@ -1,0 +1,149 @@
+#include <iostream>
+#include <string>
+#include <limits>
+
+using namespace std;
+
+// Функция для нахождения модуля числа
+int abs(int x) {
+    return (x >= 0) ? x : -x;
+}
+
+// Функция для безопасного деления
+double safeDiv(int x, int y) {
+    if (y == 0) {
+        return 0.0;
+    }
+    return static_cast<double>(x) / y;
+}
+
+// Функция для проверки условия "тридцать пять"
+bool is35(int x) {
+    return (x % 3 == 0 || x % 5 == 0) && !(x % 3 == 0 && x % 5 == 0);
+}
+
+// Функция для нахождения максимума из трех чисел
+int max3(int x, int y, int z) {
+    return max(max(x, y), z);
+}
+
+// Функция для вывода дня недели
+string day(int x) {
+    switch (x) {
+        case 1: return "понедельник";
+        case 2: return "вторник";
+        case 3: return "среда";
+        case 4: return "четверг";
+        case 5: return "пятница";
+        case 6: return "суббота";
+        case 7: return "воскресенье";
+        default: return "это не день недели";
+    }
+}
+
+// Проверка ввода целого числа
+int inputInteger() {
+    int x;
+    while (true) {
+        cout << "Введите целое число: ";
+        if (cin >> x) {
+            return x;
+        } else {
+            cout << "Ошибка ввода. Пожалуйста, введите целое число." << endl;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+    }
+}
+
+// Проверка ввода дробного числа
+double inputDouble() {
+    double x;
+    while (true) {
+        cout << "Введите дробное число: ";
+        if (cin >> x) {
+            return x;
+        } else {
+            cout << "Ошибка ввода. Пожалуйста, введите дробное число." << endl;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+    }
+}
+
+// Главная функция с меню
+int main() {
+    int choice = 0;
+
+    while (true) {
+        cout << "Выберите действие:" << endl;
+        cout << "1. Модуль числа" << endl;
+        cout << "2. Безопасное деление" << endl;
+        cout << "3. Тридцать пять" << endl;
+        cout << "4. Тройной максимум" << endl;
+        cout << "5. День недели" << endl;
+        cout << "0. Выход" << endl;
+        cin >> choice;
+
+        if (choice == 0) {
+            break;
+        }
+
+        switch (choice) {
+            case 1: {
+                int x = inputInteger();
+                cout << "Модуль числа: " << abs(x) << endl;
+                break;
+            }
+            case 2: {
+                int x = inputInteger();
+                int y;
+                while (true) {
+                    cout << "Введите делитель (целое число): ";
+                    cin >> y;
+                    if (cin && y != 0) {
+                        break;
+                    } else {
+                        cout << "Ошибка ввода. Делитель не может быть 0." << endl;
+                        cin.clear();
+                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    }
+                }
+                cout << "Результат деления: " << safeDiv(x, y);
+                break;
+            }
+            case 3: {
+                int x = inputInteger();
+                cout << (is35(x) ? "Число делится на 3 или 5." : "Число не соответствует условиям.") << endl;
+                break;
+            }
+            case 4: {
+                int x = inputInteger();
+                int y = inputInteger();
+                int z = inputInteger();
+                cout << "Максимальное число: " << max3(x, y, z) << endl;
+                break;
+            }
+            case 5: {
+                int x;
+                while (true) {
+                    cout << "Введите номер дня недели (1-7): ";
+                    cin >> x;
+                    if (cin && x >= 1 && x <= 7) {
+                        cout << "День недели: " << day(x) << endl;
+                        break;
+                    } else {
+                        cout << "Ошибка ввода. " << day(x) << endl;
+                        cin.clear();
+                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    }
+                }
+                break;
+            }
+            default:
+                cout << "Неверный выбор. Попробуйте снова." << endl;
+        }
+    }
+
+    return 0;
+}
