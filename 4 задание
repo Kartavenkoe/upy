@@ -1,0 +1,153 @@
+#include <iostream>
+#include <vector>
+#include <limits>
+
+using namespace std;
+
+// Функция поиска первого вхождения числа x в массив arr
+int findFirst(int arr[], int size, int x) {
+    for (int i = 0; i < size; i++) {
+        if (arr[i] == x) {
+            return i; // возврат индекса первого вхождения
+        }
+    }
+    return -1; 
+}
+
+// Функция поиска последнего вхождения числа x в массив arr
+int findLast(int arr[], int size, int x) {
+    for (int i = size - 1; i >= 0; i--) {
+        if (arr[i] == x) {
+            return i; // возврат индекса последнего вхождения
+        }
+    }
+    return -1; 
+}
+
+// Функция поиска максимального по модулю числа в массиве arr
+int maxAbs(int arr[], int size) {
+    int maxAbsVal = arr[0]; // начальное значение - первый элемент
+    for (int i = 1; i < size; i++) {
+        if (abs(arr[i]) > abs(maxAbsVal)) {
+            maxAbsVal = arr[i]; // обновление найденного значения
+        }
+    }
+    return maxAbsVal; // возврат максимального по модулю
+}
+
+// Функция реверса массива arr
+void reverse(int arr[], int size) {
+    for (int i = 0; i < size / 2; i++) {
+        swap(arr[i], arr[size - 1 - i]); // обмен элементов
+    }
+}
+
+// Функция, возвращающая новый массив, записанный задом наперед
+int* reverseBack(int arr[], int size) {
+    int* reversedArr = new int[size]; // создание нового массива
+    for (int i = 0; i < size; i++) {
+        reversedArr[i] = arr[size - 1 - i]; // заполнение нового массива
+    }
+    return reversedArr; // возврат нового массива
+}
+
+// Функция для проверки ввода
+bool isValidInput() {
+    if (cin.fail()) {
+        cin.clear(); // сброс состояния потока
+        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // игнорирование неверного ввода
+        cout << "Ошибка: Ввод должен содержать только целые числа." << endl;
+        return false; // возвращаем, что ввод был неверным
+    }
+    return true; // иначе ввод корректен
+}
+
+int main() {
+    int size;
+    cout << "Введите размер массива: ";
+    cin >> size;
+
+    while (!isValidInput()) {
+        cout << "Попробуйте еще раз. Введите размер массива: ";
+        cin >> size;
+    }
+
+    int* arr = new int[size]; // выделение памяти под массив
+    cout << "Введите элементы массива (целые числа через пробел): ";
+    for (int i = 0; i < size; i++) {
+        cin >> arr[i];
+        while (!isValidInput()) {
+            cout << "Ошибка! Введите целое число: ";
+            cin >> arr[i];
+        }
+    }
+
+    int option;
+    do {
+        cout << "\nВыберите функцию:\n";
+        cout << "1. Поиск первого вхождения";
+        cout << "2. Поиск последнего вхождения";
+        cout << "3. Поиск максимального по модулю";
+        cout << "4. Реверс массива";
+        cout << "5. Возвратный реверс";
+        cout << "6. Выход";
+        cout << "Введите ваш выбор: ";
+        cin >> option;
+
+        while (!isValidInput()) {
+            cout << "Ошибка! Введите номер функции (1-6): ";
+            cin >> option;
+        }
+
+        int x;
+
+        switch (option) {
+            case 1:
+                cout << "Введите значение для поиска: ";
+                cin >> x;
+                while (!isValidInput()) {
+                    cout << "Ошибка! Введите целое число: ";
+                    cin >> x;
+                }
+                cout << "Первое вхождение " << x << " находится под индексом " << findFirst(arr, size, x) << endl;
+                break;
+            case 2:
+                cout << "Введите значение для поиска: ";
+                cin >> x;
+                while (!isValidInput()) {
+                    cout << "Ошибка! Введите целое число: ";
+                    cin >> x;
+                }
+                cout << "Последнее вхождение " << x << " находится под индексом " << findLast(arr, size, x) << endl;
+                break;
+            case 3:
+                cout << "Максимальное по модулю значение: " << maxAbs(arr, size) << endl;
+                break;
+            case 4:
+                reverse(arr, size);
+                cout << "Массив после реверса: ";
+                for (int i = 0; i < size; i++) {
+                    cout << arr[i] << " ";
+                }
+                cout << endl;
+                break;
+            case 5: {
+                int* reversedArr = reverseBack(arr, size);
+                cout << "Новый массив, записанный задом наперед: ";
+                for (int i = 0; i < size; i++) {
+                    cout << reversedArr[i] << " ";
+                }
+                cout << endl;
+                delete[] reversedArr; // освобождение памяти
+                break;
+            }
+            case 6:
+                break; // выход
+            default:
+                cout << "Неверный выбор. Попробуйте снова." << endl;
+        }
+    } while (option != 6);
+
+    delete[] arr; 
+    return 0;
+}
